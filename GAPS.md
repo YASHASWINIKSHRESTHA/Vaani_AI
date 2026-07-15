@@ -128,3 +128,21 @@ Read the output table once, specifically checking for the uniformity flag in sec
 ## 7. Still open (1c — cheap, optional)
 
 - [ ] GPU memory budget note — documented as an untested risk in `LIMITATIONS.md` section 2, not yet exercised against real concurrent model loads (no GPU available in this environment).
+
+## 8. Real failure encountered on first actual run (2026-07-15, Colab, Python 3.12)
+
+`pip install -r requirements.txt` failed entirely: `ERROR: No matching
+distribution found for TTS`. The original Coqui `TTS` PyPI package is
+unmaintained since 2023 and does not resolve on Python 3.10+ -- Colab's
+default runtime is Python 3.12. Because pip's modern resolver plans the
+full install before installing anything, this single failure blocked
+*every* package in the file, including unrelated ones like `jiwer`, which
+then surfaced as a separate, more confusing `ModuleNotFoundError` at
+eval-run time.
+
+**Fix applied:** swapped `TTS` for `coqui-tts` in `requirements.txt` and
+`requirements/xtts.txt` -- the actively-maintained community fork, same
+`from TTS.api import TTS` import surface, no source code changes needed.
+Not yet re-verified against a real Colab run past this point (next TTS
+library in the list to potentially hit a similar issue: `chatterbox-tts`
+or `parler-tts`, unconfirmed either way).

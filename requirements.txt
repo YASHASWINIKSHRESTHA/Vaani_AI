@@ -4,6 +4,13 @@
 # so if pip's resolver throws a conflict here, that's why: switch to the
 # isolated per-model venvs in requirements/{base,chatterbox,xtts,indic}.txt
 # instead (see README "Environment setup", GAPS.md section 1b item 6).
+#
+# Using `coqui-tts` (not the original `TTS` PyPI package) below: the
+# original Coqui `TTS` package is unmaintained since 2023 and its pinned
+# dependencies don't resolve on Python 3.10+ (confirmed on Colab's default
+# Python 3.12 runtime -- see GAPS.md). `coqui-tts` is the actively
+# maintained community fork and is a drop-in replacement -- code still
+# does `from TTS.api import TTS`, no code changes needed.
 torch
 torchaudio
 pyyaml
@@ -11,7 +18,7 @@ soundfile
 jiwer
 speechbrain
 openai-whisper
-TTS
+coqui-tts
 chatterbox-tts
 parler-tts
 transformers

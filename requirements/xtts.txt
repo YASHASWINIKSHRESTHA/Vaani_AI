@@ -1,7 +1,11 @@
 # envs/xtts venv -- Arabic (MSA) primary model. Isolated from chatterbox.txt
 # and indic.txt because Coqui TTS pins its own torch/transformers versions.
+#
+# `coqui-tts`, not `TTS`: the original PyPI package is unmaintained and
+# doesn't resolve on Python 3.10+ (see requirements.txt for the full note).
+# Same import surface (`from TTS.api import TTS`), no code changes needed.
 torch
 torchaudio
 soundfile
 pyyaml
-TTS
+coqui-tts
