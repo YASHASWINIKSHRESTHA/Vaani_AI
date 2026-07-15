@@ -1,0 +1,17 @@
+# Single shared environment -- try this first (python -m venv .venv && pip
+# install -r requirements.txt). Coqui TTS, Chatterbox, and Parler-TTS
+# commonly pin incompatible torch/transformers versions against each other,
+# so if pip's resolver throws a conflict here, that's why: switch to the
+# isolated per-model venvs in requirements/{base,chatterbox,xtts,indic}.txt
+# instead (see README "Environment setup", GAPS.md section 1b item 6).
+torch
+torchaudio
+pyyaml
+soundfile
+jiwer
+speechbrain
+openai-whisper
+TTS
+chatterbox-tts
+parler-tts
+transformers

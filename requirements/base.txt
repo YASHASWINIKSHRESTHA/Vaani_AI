@@ -1,0 +1,15 @@
+# Orchestrator env: router dispatch, gate.py, similarity.py, round-trip ASR
+# (both Whisper large-v3 and IndicWhisper), and everything in eval/. Does
+# NOT include any TTS library -- those run in their own venvs (see
+# requirements/chatterbox.txt, xtts.txt, indic.txt) because Coqui TTS,
+# Chatterbox, and transformers-based Parler-TTS commonly pin incompatible
+# torch/transformers versions against each other. See GAPS.md section 1b,
+# item 6, and README "Environment setup" for how these venvs get used.
+torch
+torchaudio
+pyyaml
+soundfile
+jiwer
+speechbrain
+openai-whisper
+transformers

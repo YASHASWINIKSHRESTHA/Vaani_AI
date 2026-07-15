@@ -1,0 +1,7 @@
+# envs/xtts venv -- Arabic (MSA) primary model. Isolated from chatterbox.txt
+# and indic.txt because Coqui TTS pins its own torch/transformers versions.
+torch
+torchaudio
+soundfile
+pyyaml
+TTS

@@ -1,0 +1,9 @@
+# envs/indic venv -- Hindi primary model. Isolated from chatterbox.txt and
+# xtts.txt because parler-tts pins its own transformers version, which has
+# historically conflicted with Coqui TTS's pin.
+torch
+torchaudio
+soundfile
+pyyaml
+transformers
+parler-tts

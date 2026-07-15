@@ -1,0 +1,10 @@
+# Single source of truth for pass/fail gating (src/gate.py reads this).
+# Do not hand-edit results based on these numbers — build_report.py and
+# gate.py are the only things allowed to decide pass/fail.
+
+mos_min: 4.0
+speaker_cosine_min: 0.75
+latency_first_audio_streaming_ms_max: 500
+latency_first_audio_batch_s_max: 2.0
+rtf_max: 0.5
+round_trip_wer_max_pct: 10.0

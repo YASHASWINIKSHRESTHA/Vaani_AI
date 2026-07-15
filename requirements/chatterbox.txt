@@ -1,0 +1,7 @@
+# envs/chatterbox venv -- English primary model. Isolated from xtts.txt and
+# indic.txt because chatterbox-tts pins its own torch/transformers versions.
+torch
+torchaudio
+soundfile
+pyyaml
+chatterbox-tts

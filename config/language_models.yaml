@@ -1,0 +1,18 @@
+# Router config: language -> primary/fallback TTS model, and which ASR model
+# does round-trip verification for that language. Swapping a model for a
+# language is a one-line change here, not a code change in src/router.py.
+
+en:
+  primary: chatterbox
+  fallback: cosyvoice2
+  asr: whisper_large_v3
+
+ar:
+  primary: xtts_v2
+  fallback: fish_speech
+  asr: whisper_large_v3   # weaker on Arabic than on English — disclosed in README/FAILURES.md
+
+hi:
+  primary: indic_parler_tts
+  fallback: indic_tts
+  asr: indic_whisper       # not whisper_large_v3 — see SPEC.md section 2
