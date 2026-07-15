@@ -1,7 +1,11 @@
 # envs/chatterbox venv -- English primary model. Isolated from xtts.txt and
 # indic.txt because chatterbox-tts pins its own torch/transformers versions.
+#
+# numpy<2: see requirements.txt -- numba (transitive, common in audio
+# libraries) doesn't support NumPy 2.x yet.
 torch
 torchaudio
 soundfile
 pyyaml
+numpy<2
 chatterbox-tts

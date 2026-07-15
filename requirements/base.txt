@@ -5,6 +5,10 @@
 # Chatterbox, and transformers-based Parler-TTS commonly pin incompatible
 # torch/transformers versions against each other. See GAPS.md section 1b,
 # item 6, and README "Environment setup" for how these venvs get used.
+# numpy<2: numba (transitive, via openai-whisper/librosa) doesn't support
+# NumPy 2.x yet. transformers<5: kept below the major bump that broke
+# coqui-tts (see requirements.txt for the full note) for consistency, even
+# though this env has no TTS library itself.
 torch
 torchaudio
 pyyaml
@@ -12,4 +16,5 @@ soundfile
 jiwer
 speechbrain
 openai-whisper
-transformers
+numpy<2
+transformers>=4.57,<5

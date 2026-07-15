@@ -143,6 +143,40 @@ eval-run time.
 **Fix applied:** swapped `TTS` for `coqui-tts` in `requirements.txt` and
 `requirements/xtts.txt` -- the actively-maintained community fork, same
 `from TTS.api import TTS` import surface, no source code changes needed.
-Not yet re-verified against a real Colab run past this point (next TTS
-library in the list to potentially hit a similar issue: `chatterbox-tts`
-or `parler-tts`, unconfirmed either way).
+
+**Follow-on failures hit during the same Colab session, in order, each
+confirmed and fixed:**
+
+1. `pip install -r requirements.txt` as a single resolver pass kept
+   failing in ways that didn't reproduce when installing each package
+   individually. Workaround used during debugging: install packages one at
+   a time in a loop rather than as one `-r requirements.txt` call.
+2. `ImportError: cannot import name 'is_torch_greater_or_equal'` --
+   `transformers` had been resolved to a version too old for `coqui-tts`
+   (a later, unpinned `pip install transformers` in the sequential loop
+   didn't upgrade it because a version was already "satisfied").
+3. `RuntimeError: operator torchvision::nms does not exist` -- a
+   subsequent `pip install -U coqui-tts` bumped `torch` without also
+   bumping `torchvision`, which had been pulled in transitively and was
+   left compiled against the old `torch` ABI.
+4. `ImportError: Numba needs NumPy 2.0 or less. Got NumPy 2.5.` -- the
+   `torch`/`torchvision` reinstall pulled a newer NumPy; `numba` (pulled in
+   transitively, likely via `openai-whisper`/`librosa`) doesn't support
+   NumPy 2.x.
+5. `ImportError: cannot import name 'isin_mps_friendly' from
+   'transformers.pytorch_utils'` -- **root cause, confirmed via
+   [idiap/coqui-ai-TTS#558](https://github.com/idiap/coqui-ai-TTS/issues/558):**
+   `transformers` 5.x removed `isin_mps_friendly`, which `coqui-tts`'s code
+   still imports. `coqui-tts`'s own `pyproject.toml` declares
+   `transformers>=4.57` with **no upper bound**, so pip happily installs
+   transformers 5.x, which is actually broken with it -- an upstream bug,
+   not a local environment mistake.
+
+**Permanent fix, pushed to `requirements.txt` and all
+`requirements/*.txt`:** pin `numpy<2` and `transformers>=4.57,<5`
+explicitly everywhere, rather than leaving them unpinned and hoping pip's
+resolver lands somewhere compatible. This is exactly the "dependency
+conflicts are likely, not hypothetical" risk GAPS.md section 1b item 6
+called out in advance -- now confirmed in practice, not just predicted.
+Re-verification against a real Colab run with these pins in place: still
+pending as of this writing.

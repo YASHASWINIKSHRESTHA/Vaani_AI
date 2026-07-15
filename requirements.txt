@@ -11,6 +11,16 @@
 # Python 3.12 runtime -- see GAPS.md). `coqui-tts` is the actively
 # maintained community fork and is a drop-in replacement -- code still
 # does `from TTS.api import TTS`, no code changes needed.
+#
+# transformers<5 -- coqui-tts's code still imports `isin_mps_friendly` from
+# transformers.pytorch_utils, which transformers 5.x removed. coqui-tts's
+# own pyproject.toml only declares `transformers>=4.57` with no upper bound
+# (a bug on their end, confirmed at idiap/coqui-ai-TTS#558), so pip happily
+# installs a broken combination unless pinned here.
+#
+# numpy<2 -- numba (a transitive dependency, likely pulled in via
+# openai-whisper/librosa) does not support NumPy 2.x as of this writing and
+# fails at import time otherwise.
 torch
 torchaudio
 pyyaml
@@ -18,7 +28,8 @@ soundfile
 jiwer
 speechbrain
 openai-whisper
+numpy<2
+transformers>=4.57,<5
 coqui-tts
 chatterbox-tts
 parler-tts
-transformers
